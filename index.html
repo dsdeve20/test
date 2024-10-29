@@ -1,11 +1,99 @@
+
 <!DOCTYPE html>
+<!-- Defines types of documents : Html 5.O -->
 <html lang="en">
+<!-- DEfines languages of content : English -->
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+      <!-- Information about website and creator -->
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <!-- Defines the compatibility of version with browser -->
+      <meta name="viewport" content="width=device-width, 
+                   initial-scale=1.0" />
+      <!-- for make website responsive -->
+      <meta name="author" content="Mr.X" />
+      <meta name="Linkedin profile" content="WWW.linkedin.com/Mr.X_123" />
+      <!-- To give information about author or owner -->
+      <meta name="description " content="A better place to learn computer science" />
+      <!-- to explain about website in few words -->
+      <title>GeeksforGeeks</title>
+      <!-- Name of website or content to display -->
+	  <link rel='stylesheet' href="style.css" />
 </head>
+
 <body>
-    Helll this html is for testing purpose
+	<div class="showspin">
+	  <div class="rect1"></div>
+	  <div class="rect2"></div>
+	  <div class="rect3"></div>
+	  <div class="rect4"></div>
+	  <div class="rect5"></div>
+	</div>
+        <div class="container">
+			<div class="hero_section">
+				<form id="myform">
+				 <input type="text" placeholder="Search with single alphabet" class="search_btn" value="a">
+				 <button type="submit" class="submitbtn">&#x1F50E;&#xFE0E;</button>
+				</form>
+			</div>
+			<div class="content">
+				<div class="cardsection">
+				</div>
+			</div>
+			
+	    </div>
 </body>
+
+<script>
+	
+	async function fetchdata (search = 'a'){
+		const spin = document.querySelector('.showspin')
+		spin.classList.add('spinner')
+		const fetchurl = `https://www.themealdb.com/api/json/v1/1/search.php?f=${search}`;
+		const response = await fetch(fetchurl);
+		
+		const data = await response.json();
+		const content = document.querySelector('.cardsection') 
+		console.log(data.meals)
+		spin.classList.remove('spinner')
+		if(typeof data.meals === 'string'){
+		content.innerHTML = `<p class="nomeal">${data.meals}</p>`
+		}
+		else{
+			const mapdata = data.meals.map((mealitem)=>{
+				
+				const cd = `<div class="card">
+					<div class="card-content ">
+						<img src="${mealitem.strMealThumb}" loading="lazy">
+						<h2 class="title">${mealitem.strMeal}</h1>
+					</div>	
+				</div>`
+				return cd
+			}).join('')
+			console.log(mapdata)
+			content.innerHTML = mapdata
+			const contentNew = document.querySelectorAll('.card-content')
+			 Array.from(contentNew).forEach((mp, index)=>{
+				setTimeout(function(){
+					mp.classList.add('visible')
+				},100 * index)
+			})
+	
+		}
+	
+	}
+	fetchdata()
+	
+	const form = document.getElementById('myform');
+	form.addEventListener('submit', function(e){
+		e.preventDefault();
+		 const search_btn = document.querySelector('.search_btn').value;
+		 if(search_btn !=''){
+			fetchdata(search_btn)
+		 }
+	})
+</script>
+
+
 </html>
