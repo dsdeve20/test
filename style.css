@@ -98,9 +98,15 @@ form{
 	.card{
 		flex-basis: 50%;
 	}
+	form{
+		width:80%;
+	}
 }
 @media (max-width:768px) {
 	.card{
 		flex-basis: 100%;
+	}
+	form{
+		width:80%;
 	}
 }
