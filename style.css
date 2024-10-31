@@ -137,6 +137,17 @@ form{
 	font-size: 1.4rem;
 	text-decoration: underline;
 }
+.backbtn{
+	position: absolute;
+    font-size: 20px;
+    right: 37px;
+    text-decoration: none;
+    font-size: 30px;
+    color: black;
+}
+.backbtn:hover{
+   text-decoration: underline;
+}
 
 @media (max-width:992px) {
 	.card{
