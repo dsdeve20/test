@@ -165,3 +165,11 @@ form{
 		width:80%;
 	}
 }
+@media (max-width:576px) {
+	.detail-section {
+		flex-direction: column;
+	}
+	.detail-left, .detail-right{
+		width: 100%;
+	}
+}
