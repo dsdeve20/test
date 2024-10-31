@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<!-- Defines types of documents : Html 5.O -->
+<html lang="en">
+<!-- DEfines languages of content : English -->
+
+<head>
+      <!-- Information about website and creator -->
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <!-- Defines the compatibility of version with browser -->
+      <meta name="viewport" content="width=device-width, 
+                   initial-scale=1.0" />
+      <!-- for make website responsive -->
+      <meta name="author" content="Mr.X" />
+      <meta name="Linkedin profile" content="WWW.linkedin.com/Mr.X_123" />
+      <!-- To give information about author or owner -->
+      <meta name="description " content="A better place to learn computer science" />
+      <!-- to explain about website in few words -->
+      <title>Details</title>
+      <!-- Name of website or content to display -->
+	  <link rel='stylesheet' href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="detail-section">
+            <div class="detail-left">
+                <img src="" loading="lazy" class="detail-img">
+            </div>
+            <div class="detail-right">
+                <h1 class="title">Ayam Percik</h1>
+                <div class="ingredient_section">
+                    <h4>Ingredients</h4>
+                    <ul class="ingredients">
+                    
+                    </ul>
+                </div>
+                <div class="instructions_section">
+                    <h4>Instructions</h4>
+                    <ul class="instructions">
+                        <p class="">In a blender, add the ingredients for the spice paste and blend until smooth.
+                            Over medium heat, pour the spice paste in a skillet or pan and fry for 10 minutes until fragrant. Add water or oil 1 tablespoon at a time if the paste becomes too dry. Don't burn the paste. Lower the fire slightly if needed.
+                            Add the cloves, cardamom, tamarind pulp, coconut milk, water, sugar and salt. Turn the heat up and bring the mixture to boil. Turn the heat to medium low and simmer for 10 minutes. Stir occasionally. It will reduce slightly. This is the marinade/sauce, so taste and adjust seasoning if necessary. Don't worry if it's slightly bitter. It will go away when roasting.
+                            When the marinade/sauce has cooled, pour everything over the chicken and marinate overnight to two days.
+                            Preheat the oven to 425 F.
+                            Remove the chicken from the marinade. Spoon the marinade onto a greased (or aluminum lined) baking sheet. Lay the chicken on top of the sauce (make sure the chicken covers the sauce and the sauce isn't exposed or it'll burn) and spread the remaining marinade on the chicken. Roast for 35-45 minutes or until internal temp of the thickest part of chicken is at least 175 F.
+                            Let chicken rest for 5 minutes. Brush the chicken with some of the oil. Serve chicken with the sauce over steamed rice (or coconut rice).</p>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const currentUrl = window.location.href;
+        const url = new URL(currentUrl);
+        const params = new URLSearchParams(url.searchParams);
+        const id = Number(params.get('id'));
+        async function fetchContent (id){
+            const contentUrl = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
+            const fetchData = await fetch(contentUrl)
+            const data = await fetchData.json();
+            console.log(data)
+            if(typeof data.meals === 'string'){
+                window.location.href = 'index.html'
+            }
+            else{
+                const strMealThumb = data.meals[0].strMealThumb
+                const strMeal =  data.meals[0].strMeal
+                const strInstructions =  data.meals[0].strInstructions
+                const detailImg = document.querySelector('.detail-img')
+                const detailingredients = document.querySelector('.ingredients')
+                const detailInstructions = document.querySelector('.instructions')
+                detailImg.setAttribute('src',strMealThumb)
+                const title = document.querySelector('.title')
+                const allkeys = Object.keys(data.meals[0]).filter((fill)=>{ return fill.includes('strIngredient')})
+                .map((key)=>({key, value:data.meals[0][key]}))
+                if(allkeys.length>0){
+                   const ingredients =  allkeys.map(mf=> {
+                
+                        if(mf.value !=""){
+                            const cd = `<li>${mf.value}</li>`
+                            return cd;
+                        }
+                        
+                    }).join('')
+                    detailingredients.innerHTML = ingredients
+                }
+                detailInstructions.innerHTML = strInstructions
+            }
+        }
+        fetchContent(id)
+    </script>
+</body>
+</html>

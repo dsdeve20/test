@@ -52,22 +52,22 @@
 		spin.classList.add('spinner')
 		const fetchurl = `https://www.themealdb.com/api/json/v1/1/search.php?f=${search}`;
 		const response = await fetch(fetchurl);
-		
 		const data = await response.json();
 		const content = document.querySelector('.cardsection') 
 		console.log(data.meals)
 		spin.classList.remove('spinner')
 		if(typeof data.meals === 'string'){
-		content.innerHTML = `<p class="nomeal">${data.meals}</p>`
+			content.innerHTML = `<p class="nomeal">${data.meals}</p>`
 		}
 		else{
 			const mapdata = data.meals.map((mealitem)=>{
-				
 				const cd = `<div class="card">
-					<div class="card-content ">
-						<img src="${mealitem.strMealThumb}" loading="lazy">
-						<h2 class="title">${mealitem.strMeal}</h1>
-					</div>	
+					<a href="details.html?id=${mealitem.idMeal}" target="_blank">
+						<div class="card-content ">
+							<img src="${mealitem.strMealThumb}" loading="lazy">
+							<h2 class="title">${mealitem.strMeal}</h1>
+						</div>
+					</a>	
 				</div>`
 				return cd
 			}).join('')
